@@ -32,25 +32,119 @@
     <meta property="og:title" content="Ana Sayfa">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
-  <meta name="referrer" content="origin"><meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <meta name="referrer" content="origin"><script>
+    function gdprConfirmed() {
+        return true;
+    }
+    function dynamicLoadScript() {
+        var script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?render=6LcUa50rAAAAAGkkb8FO4RmWQg6FSvFJ-ILJwMBW';
+        script.async = true;
+        document.body.appendChild(script);
+        script.onload = function() {
+            let event = new CustomEvent("recaptchaLoaded");
+            document.dispatchEvent(event);
+        };
+    }
+    function showRecaptchaError(error) {
+        error = error || '';
+        var formError = document.querySelector('.u-form-send-error');
+
+        if (formError) {
+            formError.innerText = 'Site Sahibi Hatası: ' + error.replace(/:[\s\S]*/, '');
+            formError.style.display = 'block';
+        }
+
+        console.error('Error in grecaptcha: ', error);
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var confirmButton = document.querySelector('.u-cookies-consent .u-button-confirm');
+        if (confirmButton) {
+            confirmButton.onclick = dynamicLoadScript;
+        }
+    });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            if (!gdprConfirmed()) {
+                return;
+            }
+            dynamicLoadScript();
+        });
+    </script>
+    <script>
+        document.addEventListener("recaptchaLoaded", function() {
+            if (!gdprConfirmed()) {
+                return;
+            }
+
+            (function (grecaptcha, sitekey, actions) {
+                var recaptcha = {
+                    execute: function (action, submitFormCb) {
+                        if (typeof grecaptcha === 'undefined' || typeof grecaptcha.execute !== 'function') {
+                            showRecaptchaError('reCAPTCHA script failed to load.');
+                            return;
+                        }
+
+                        grecaptcha.execute(sitekey, {action: action}).then((token) => {
+                            if (!token) {
+                                throw new Error('Empty token received from reCAPTCHA');
+                            }
+
+                            var forms = document.getElementsByTagName('form');
+
+                            for (var i = 0; i < forms.length; i++) {
+                                var response = forms[i].querySelector('[name="recaptchaResponse"]');
+
+                                if (!response) {
+                                    response = document.createElement('input');
+                                    response.setAttribute('type', 'hidden');
+                                    response.setAttribute('name', 'recaptchaResponse');
+                                    forms[i].appendChild(response);
+                                }
+
+                                response.value = token;
+                            }
+
+                            submitFormCb();
+                        }).catch((e) => {
+                            showRecaptchaError(e.message);
+                        });
+                    },
+
+                    executeContact: function (submitFormCb) {
+                        recaptcha.execute(actions['contact'], submitFormCb);
+                    }
+                };
+
+                window.recaptchaObject = recaptcha;
+            })(
+                grecaptcha,
+                
+                '6LcUa50rAAAAAGkkb8FO4RmWQg6FSvFJ-ILJwMBW',
+                {'contact': 'contact'}
+            );
+        });
+    </script>
+<meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
   <body data-home-page="Ana-Sayfa.html" data-home-page-title="Ana Sayfa" data-path-to-root="./" data-include-products="false" class="u-body u-clearfix u-xl-mode" data-lang="tr"><header class="u-clearfix u-header u-sticky u-sticky-f4ea u-header" id="header"><div class="u-clearfix u-sheet u-valign-bottom-xl u-valign-middle-lg u-valign-middle-sm u-sheet-1">
-        <a href="#" class="u-image u-logo u-image-1" data-image-width="900" data-image-height="900">
+        <a href="./#sec-8ef8" data-page-id="622227529" class="u-image u-logo u-image-1" data-image-width="900" data-image-height="900">
           <img src="images/Kamillogo.jpg" class="u-logo-image u-logo-image-1">
         </a>
         <p class="u-align-center u-custom-font u-text u-text-1">Karate KamIL</p>
-        <nav class="u-dropdown-icon u-menu u-menu-dropdown u-offcanvas u-menu-1" role="navigation">
+        <nav class="u-menu u-menu-one-level u-offcanvas u-menu-1" role="navigation">
           <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px; font-weight: 700;">
-            <a class="u-button-style u-custom-active-border-color u-custom-border u-custom-border-color u-custom-borders u-custom-hover-border-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-decoration u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-nav-link" aria-label="Open menu" aria-controls="ccce" href="#" style="padding: 6px 7px; font-size: calc(1em + 12.1641px);">
+            <a class="u-button-style u-custom-active-border-color u-custom-border u-custom-border-color u-custom-borders u-custom-hover-border-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-decoration u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-hamburger-link u-nav-link u-hamburger-link-1" aria-label="Open menu" aria-controls="ccce" href="#">
               <svg class="u-svg-link" viewBox="0 0 24 24"><use xlink:href="#svg-7822"></use></svg>
               <svg class="u-svg-content" version="1.1" id="svg-7822" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
 </g></svg>
             </a>
           </div>
           <div class="u-custom-menu u-nav-container">
-            <ul role="menubar" class="u-nav u-spacing-20 u-unstyled u-nav-1"><li role="none" class="u-nav-item"><a role="menuitem" class="u-border-active-grey-30 u-border-hover-grey-30 u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./" style="padding: 10px 0px;">Ana Sayfa</a>
-</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-border-active-grey-30 u-border-hover-grey-30 u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./#sec-fb9e" data-page-id="622227529" style="padding: 10px 0px;">Hakkında</a>
-</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-border-active-grey-30 u-border-hover-grey-30 u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./#sec-05ae" data-page-id="622227529" style="padding: 10px 0px;">İletişim</a>
-</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-border-active-grey-30 u-border-hover-grey-30 u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./#carousel_0960" data-page-id="622227529" style="padding: 10px 0px;">Düşmanlar</a>
+            <ul role="menubar" class="u-nav u-spacing-20 u-unstyled u-nav-1"><li role="none" class="u-nav-item"><a role="menuitem" class="u-border-2 u-border-active-grey-30 u-border-hover-grey-30 u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./" style="padding: 10px 0px;">Ana Sayfa</a>
+</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-border-2 u-border-active-grey-30 u-border-hover-grey-30 u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./#sec-fb9e" data-page-id="622227529" style="padding: 10px 0px;">Hakkında</a>
+</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-border-2 u-border-active-grey-30 u-border-hover-grey-30 u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./#carousel_0960" data-page-id="622227529" style="padding: 10px 0px;">Düşmanlar</a>
+</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-border-2 u-border-active-grey-30 u-border-hover-grey-30 u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="./#sec-05ae" data-page-id="622227529" style="padding: 10px 0px;">İletişim</a>
 </li></ul>
           </div>
           <div id="ccce" role="region" aria-label="Menu panel" class="u-custom-menu u-nav-container-collapse">
@@ -59,8 +153,8 @@
                 <div class="u-menu-close" tabindex="-1" aria-controls="ccce" aria-label="Close menu"></div>
                 <ul role="menubar" class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li role="none" class="u-nav-item"><a role="menuitem" class="u-button-style u-nav-link" href="./">Ana Sayfa</a>
 </li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-button-style u-nav-link" href="./#sec-fb9e" data-page-id="622227529">Hakkında</a>
-</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-button-style u-nav-link" href="./#sec-05ae" data-page-id="622227529">İletişim</a>
 </li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-button-style u-nav-link" href="./#carousel_0960" data-page-id="622227529">Düşmanlar</a>
+</li><li role="none" class="u-nav-item"><a tabindex="-1" role="menuitem" class="u-button-style u-nav-link" href="./#sec-05ae" data-page-id="622227529">İletişim</a>
 </li></ul>
               </div>
             </div>
@@ -71,7 +165,7 @@
     <section class="skrollable u-clearfix u-container-align-center u-section-1" id="sec-8ef8" data-image-width="2000" data-image-height="1333">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <div class="skrollable u-container-style u-expanded-width u-group u-image u-radius u-shape-rectangle u-image-1" data-image-width="420" data-image-height="272">
-          <div class="u-container-layout u-valign-middle u-container-layout-1">
+          <div class="u-container-layout u-valign-middle-lg u-valign-middle-sm u-container-layout-1">
             <h1 class="u-align-right u-custom-font u-font-lobster u-text u-title u-text-1">Denemek diye birşey yok,&nbsp; Yap yada Yapma !</h1>
           </div>
         </div>
@@ -99,7 +193,7 @@ Ve o gün, Karate Kamil efsane oldu.
                   </p>
                 </div>
               </div>
-              <div class="u-align-center u-container-style u-layout-cell u-right-cell u-size-30 u-size-xs-60 u-layout-cell-2" src="">
+              <div class="u-align-center u-container-align-center u-container-style u-layout-cell u-right-cell u-size-30 u-size-xs-60 u-layout-cell-2" src="">
                 <div class="u-container-layout u-valign-bottom-xl u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-2" src="">
                   <img class="u-expanded-width u-image u-image-1" src="images/arkasdnkkamil.jpg" data-image-width="272" data-image-height="242">
                 </div>
@@ -114,8 +208,8 @@ Ve o gün, Karate Kamil efsane oldu.
         <div class="data-layout-selected u-clearfix u-expanded-width u-gutter-10 u-layout-wrap u-layout-wrap-1">
           <div class="u-layout" style="">
             <div class="u-layout-row" style="">
-              <div class="u-align-center u-container-style u-layout-cell u-right-cell u-size-30 u-size-xs-60 u-layout-cell-1" src="">
-                <div class="u-container-layout u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-1" src="">
+              <div class="u-align-center u-container-align-center-lg u-container-align-center-xl u-container-style u-layout-cell u-right-cell u-size-30 u-size-xs-60 u-layout-cell-1" src="">
+                <div class="u-container-layout u-valign-middle-lg u-valign-middle-sm u-valign-middle-xs u-container-layout-1" src="">
                   <img class="custom-expanded u-image u-image-1" src="images/ninja.jpg" data-image-width="878" data-image-height="861">
                   <img class="u-image u-image-default u-image-2" src="images/kabaktarif.JPG" alt="" data-image-width="845" data-image-height="849">
                   <img class="u-image u-image-default u-image-3" src="images/bokkafalocuk.jpg" alt="" data-image-width="600" data-image-height="507">
@@ -139,7 +233,7 @@ Ve o gün, Karate Kamil efsane oldu.
         <h2 class="u-align-center u-text u-text-default u-text-1">Dövüş Teknikleri</h2>
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
-            <div class="u-align-center u-container-style u-list-item u-repeater-item u-white u-list-item-1">
+            <div class="u-align-center u-container-align-center u-container-style u-list-item u-repeater-item u-white u-list-item-1">
               <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-1"><span class="u-icon u-icon-circle u-palette-1-base u-text-white u-icon-1"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 128 128" style=""><use xlink:href="#svg-3e4c"></use></svg><svg class="u-svg-content" viewBox="0 0 128 128" id="svg-3e4c"><path d="m26.4 108.7c-1.2 0-2.2-1-2.2-2.2s1-2.2 4.7-2.2h48.7v-7.4h-31.2v-9.9h31.2v-8.4h-58.7c-7.7 0-10.6-3-10.6-6.6v-57.1c0-3.7 3-6.6 6.6-6.6h81.2c3.7 0 6.6 3 6.6 6.6v27h8.3v-27c0-8.2-6.7-14.9-14.9-14.9h-81.2c-8.2 0-14.9 6.7-14.9 14.9v57.1c0 8.2 6.7 14.9 14.9 14.9h23.2v10.1h-13.8c-4.3 0-8.5 3.7-8.5 9.5v0.2c0 4.6 3.7 9.3 8.3 9.3h53.5v-7.3h-51.2z"></path><path d="m118 41.9h-30c-5.8 0-10.5 4.7-10.5 10.6 0 0 0.1 66.3 0.1 66.4 0 4.3 5.1 9 10.4 9h30c5.6 0 10.2-4.4 10.5-10.1v-65.3c0-5.9-4.7-10.6-10.5-10.6zm2.4 75.5c-0.1 1.3-1.1 2.3-2.4 2.3h-30c-1 0-1.9-0.7-2.2-1.6l-0.2-65.6c0-1.3 1.1-2.4 2.4-2.4h30c1.3 0 2.4 1.1 2.4 2.4v64.9z"></path></svg></span>
                 <h5 class="u-text u-text-default u-text-2">Uçan Tekme </h5>
                 <p class="u-text u-text-default u-text-3">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
@@ -151,7 +245,7 @@ Ve o gün, Karate Kamil efsane oldu.
                 <p class="u-text u-text-default u-text-5">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
               </div>
             </div>
-            <div class="u-align-center u-container-style u-list-item u-repeater-item u-white u-list-item-3">
+            <div class="u-align-center u-container-align-center u-container-style u-list-item u-repeater-item u-white u-list-item-3">
               <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-3"><span class="u-icon u-icon-circle u-palette-1-base u-text-white u-icon-3"><svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 128 128" style=""><use xlink:href="#svg-33eb"></use></svg><svg class="u-svg-content" viewBox="0 0 128 128" id="svg-33eb"><path d="m40.6 11c2.3 0 4.4 0.9 6.1 2.5 5.4 5.4 10.8 19.2 8.9 21.2 0 0-0.3 0.3-1.5 0.3-5.5 0-16.1-5.7-19.5-9.2-3.4-3.4-3.4-8.9 0-12.2 1.5-1.7 3.7-2.6 6-2.6m46.8 0.1c2.2 0 4.4 0.8 6.1 2.4 3.4 3.4 3.4 8.9 0 12.2-3.4 3.5-14 9.2-19.5 9.2-1.1 0-1.5-0.3-1.5-0.3-1.9-1.9 3.5-15.7 8.9-21.2 1.6-1.5 3.8-2.3 6-2.3m32.6 32.1v16h-52v-16h52m-60 0v16h-52v-16h52m52 23.9v47.9h-44v-47.9h44m-52 0v47.9h-44v-47.9h44m-19.4-64.1c-4.4 0-8.6 1.7-11.7 4.9-6.5 6.5-6.5 17 0 23.5 1.2 1.2 2.8 2.5 4.7 3.8h-25.6c-4.4 0-8 3.6-8 8v24h8v55.8h112v-55.9h8v-24c0-4.4-3.6-8-8-8h-25.6c1.9-1.3 3.6-2.6 4.7-3.8 6.5-6.5 6.5-17 0-23.5-3-3-7.3-4.8-11.7-4.8s-8.7 1.7-11.7 4.8c-4.6 4.6-7.8 11.7-8.9 14.5-2.2 5.4-3 9.5-2.5 12.8h-0.5c0.5-3.2-0.4-7.4-2.5-12.8-1.2-2.8-4.3-9.9-8.9-14.5-3.2-3.1-7.4-4.8-11.8-4.8z"></path></svg></span>
                 <h5 class="u-text u-text-default u-text-6">Hamza abi çığlığı</h5>
                 <p class="u-text u-text-default u-text-7">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
@@ -165,7 +259,8 @@ Ve o gün, Karate Kamil efsane oldu.
       <div class="u-clearfix u-sheet u-sheet-1">
         <h2 class="u-text u-text-default u-text-1">Usta Yoda nın hayatı :&nbsp;<br>
         </h2>
-        <p class="u-text u-text-2">New York merkezli, maceracı müşterilerle çalışan ve Yaratıcı Konsept, Markalaştırma, Grafik Tasarım, Sanat Yönetmenliği ve Dijital İletişim hizmetleri sunan küçük bir yaratıcı tasarım stüdyosuyuz.</p>
+        <p class="u-text u-text-2">Sokak tan gelen dişlek bir kunduz gibi tipi olan biri </p>
+        <img class="u-image u-image-default u-image-1" src="images/yoda.jpg" alt="" data-image-width="1197" data-image-height="670">
       </div>
     </section>
     <section class="u-clearfix u-section-6" id="sec-a903">
@@ -174,8 +269,8 @@ Ve o gün, Karate Kamil efsane oldu.
           <div class="u-repeater u-repeater-1">
             <div class="u-align-center u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-1">
-                <img alt="" class="u-image u-image-default u-image-1" src="images/kamil1.jpg" data-image-width="420" data-image-height="272">
-                <h5 class="u-text u-text-1">Karate Kamil</h5>
+                <img alt="" class="u-align-center u-image u-image-default u-image-1" src="images/kamil1.jpg" data-image-width="420" data-image-height="272">
+                <h5 class="u-align-center-md u-align-center-sm u-align-center-xs u-text u-text-1">Karate Kamil</h5>
                 <h6 class="u-text u-text-2">Çaylak Dövüşçü</h6>
               </div>
             </div>
@@ -190,7 +285,7 @@ Ve o gün, Karate Kamil efsane oldu.
             <div class="u-layout-row">
               <div class="u-size-30">
                 <div class="u-layout-col">
-                  <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-30 u-layout-cell-1">
+                  <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-left-cell u-size-30 u-layout-cell-1">
                     <div class="u-container-layout u-valign-bottom-xl u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-1">
                       <h2 class="u-text u-text-1">İletişim Bilgileri </h2>
                       <p class="u-text u-text-2">
@@ -207,30 +302,31 @@ Ve o gün, Karate Kamil efsane oldu.
                       </p>
                     </div>
                   </div>
-                  <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-left-cell u-size-30 u-layout-cell-2">
-                    <div class="u-container-layout u-valign-top-lg u-valign-top-md u-valign-top-xl u-container-layout-2">
-                      <div class="u-form u-form-1">
-                        <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 0px;" source="email" name="form-5">
-                          <div class="u-form-group u-form-name u-label-none">
-                            <label for="name-5359" class="u-label">Name</label>
-                            <input type="text" placeholder="Name" id="name-5359" name="name" class="u-input u-input-rectangle" required="">
+                  <div class="u-align-left u-container-style u-layout-cell u-left-cell u-size-30 u-layout-cell-2">
+                    <div class="u-container-layout u-valign-top-lg u-valign-top-md u-container-layout-2">
+                      <div class="u-expanded-width u-form u-form-1">
+                        <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="email" name="form" style="padding: 10px;">
+                          <div class="u-form-group u-form-name">
+                            <label for="name-a7b5" class="u-label">Adı</label>
+                            <input type="text" placeholder="Adınızı girin" id="name-a7b5" name="name" class="u-input u-input-rectangle" required="">
                           </div>
-                          <div class="u-form-email u-form-group u-label-none">
-                            <label for="email-5359" class="u-label">Email</label>
-                            <input type="email" placeholder="Email" id="email-5359" name="email" class="u-input u-input-rectangle" required="">
+                          <div class="u-form-email u-form-group">
+                            <label for="email-a7b5" class="u-label">Email</label>
+                            <input type="email" placeholder="Geçerli bir e-posta adresi girin" id="email-a7b5" name="email" class="u-input u-input-rectangle" required="">
                           </div>
-                          <div class="u-form-group u-form-message u-label-none">
-                            <label for="message-5359" class="u-label">Address</label>
-                            <textarea placeholder="Address" rows="4" cols="50" id="message-5359" name="message" class="u-input u-input-rectangle" required=""></textarea>
+                          <div class="u-form-group u-form-message">
+                            <label for="message-a7b5" class="u-label">Mesaj</label>
+                            <textarea placeholder="Mesajınızı girin" rows="4" cols="50" id="message-a7b5" name="message" class="u-input u-input-rectangle" required=""></textarea>
                           </div>
-                          <div class="u-align-right u-form-group u-form-submit">
-                            <a href="#" class="u-btn u-btn-submit u-button-style u-btn-4">Gönder</a>
+                          <div class="u-align-left u-form-group u-form-submit">
+                            <a href="#" class="u-btn u-btn-submit u-button-style">Kaydet</a>
                             <input type="submit" value="submit" class="u-form-control-hidden">
                           </div>
-                          <div class="u-form-send-message u-form-send-success">Teşekkür ederiz! Mesajınız gönderildi.</div>
-                          <div class="u-form-send-error u-form-send-message">Mesajınız gönderilemedi. Lütfen hataları düzeltin ve tekrar deneyin.</div>
+                          <div class="u-form-send-message u-form-send-success"> Teşekkür ederiz! Mesajınız gönderildi. </div>
+                          <div class="u-form-send-error u-form-send-message"> Mesajınız gönderilemedi. Lütfen hataları düzeltin ve tekrar deneyin. </div>
                           <input type="hidden" value="" name="recaptchaResponse">
                           <input type="hidden" name="formServices" value="9e9e16ab-4650-3235-d4a1-08f7b041d27d">
+                          <input type="hidden" name="siteKey" value="6LcUa50rAAAAAGkkb8FO4RmWQg6FSvFJ-ILJwMBW">
                         </form>
                       </div>
                     </div>
@@ -259,7 +355,7 @@ Ve o gün, Karate Kamil efsane oldu.
     
     
     <footer class="u-align-center u-clearfix u-container-align-center u-footer u-grey-80 u-footer" id="footer"><div class="u-clearfix u-sheet u-sheet-1">
-        <p class="u-small-text u-text u-text-variant u-text-1">Copright Created ​© 2025 Ejoy&nbsp;</p>
+        <p class="u-small-text u-text u-text-variant u-text-1">Copright&nbsp; ​© 2025 Ejoy&nbsp;</p>
       </div></footer>
     <section class="u-backlink u-clearfix u-grey-80"> This website was created with <a href="https://nicepage.com">Nicepage</a>
     </section>
